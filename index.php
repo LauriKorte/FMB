@@ -18,6 +18,12 @@
 	
 	$site->setupHeader();
 	$site->display();
+	
+	$rcp = $db->getRecipeWithIngredients(1);
+	
+	echo("<h1>".$rcp->name."</h1> \n");
+	foreach ($rcp->ingredients as $ing)
+		echo($ing->name." \n");
 	/*
 	$recipes = $db->getRecipes(0,20);
 	

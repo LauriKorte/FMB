@@ -78,11 +78,12 @@
 		public $id;
 		public $name;
 		public $description;
-			public $manufacturingTime;
-			public $resultType;
-			public $amountOfAttention;
-			public $difficulty;
-			public $dishType;
+		public $manufacturingTime;
+		public $resultType;
+		public $amountOfAttention;
+		public $difficulty;
+		public $dishType;
+		public $ingredients;
 	}
 	
 	class RecipeHasIngredient

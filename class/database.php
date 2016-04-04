@@ -10,6 +10,63 @@
 			$this->db = getDBConnection();
 		}
 		
+		private function parseRecipes($recipeResult)
+		{
+			$return = array();
+			foreach ($recipeResult as $rownum => $row)
+			{
+				$rcp = new Recipe();
+				$rcp->id = $row['id'];
+				$rcp->name = utf8_encode($row['name']);
+				array_push($return, $rcp);
+			}
+			return $return;
+		}
+		
+		private function parseIngredients($ingredientResult)
+		{
+			$return = array();
+			foreach ($ingredientResult as $rownum => $row)
+			{
+				$ing = new Ingredient();
+				$ing->id = $row['id'];
+				$ing->name = utf8_encode($row['name']);
+				array_push($return, $ing);
+			}
+			return $return;
+		}
+		
+		public function getRecipeWithIngredients($id)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return null;
+			}
+			$sql = 'SELECT * FROM rcp_recipe WHERE id = :id';
+			
+			$qr = $this->db->prepare($sql);
+			$qr->execute(array('id' => $id));
+			$result = $qr->fetchAll();
+			
+			$rcp = $this->parseRecipes($result);
+			$rcp = $rcp[0];
+		
+			
+			$sql = 'SELECT * FROM rcp_recipe_has_ingredient AS rhi
+					LEFT JOIN rcp_ingredient AS ing ON rhi.ingredient_id = ing.id 
+					WHERE recipe_id = :id';
+					
+			$qr = $this->db->prepare($sql);
+			$qr->execute(array('id' => $id));
+			$result = $qr->fetchAll();
+			
+			$ingredients = $this->parseIngredients($result);
+			
+			$rcp->ingredients = $ingredients;
+			return $rcp;
+		}
+		
 		public function getRecipes($first = 0, $last = -1)
 		{
 			if (is_null($this->db))
@@ -18,22 +75,12 @@
 				return array();
 			}
 			
-			$sql =
-			'
-				SELECT rcp.id, rcp.name, rcp.description, rt.name AS resultType, diff.name AS difficulty, aoa.name AS amountOfAttention, dt.name AS dishType, mft.name AS manufacturingTime
-				FROM rcp_recipe AS rcp 
-				LEFT JOIN rcp_manufacturingTime AS mft ON rcp.manufacturingTime_id = mft.id
-				LEFT JOIN rcp_resultType AS rt ON rcp.resultType_id = rt.id
-				LEFT JOIN rcp_difficulty AS diff ON rcp.difficulty_id = diff.id
-				LEFT JOIN rcp_amountOfAttention AS aoa ON rcp.amountOfAttention_id = aoa.id
-				LEFT JOIN rcp_dishType AS dt ON rcp.dishType_id = dt.id
-			';
+			$sql = 'SELECT * FROM rcp_recipe ';
 						
 			$args = array();
 			
 			if ($last < $first)
 			{
-				
 				$sql .= 'WHERE ROWNUM >= :first';
 				$args = array(':first' => $first);
 				
@@ -42,22 +89,15 @@
 			{
 				$sql .= 'LIMIT :first, :count';
 				$args = array(':first' => $first, ':count' => $last-$first);
-				
 			}
 			$qr = $this->db->prepare($sql);
 			$qr->execute($args);
+			
+			
+			
 			$result = $qr->fetchAll();
-			$return = array();
 			
-			
-			foreach ($result as $rownum => $row)
-			{
-				$rcp = new Recipe();
-				$rcp->id = $row['id'];
-				$rcp->name = utf8_encode($row['name']);
-				array_push($return, $rcp);
-			}
-			return $return;
+			return $this->parseRecipes($result);
 		}
 		
 	}
