@@ -1,5 +1,5 @@
 <?php
-require_once("site/content.php");
+require_once(__DIR__ . "/../site/content.php");
 require_once("recipeListStyle.php");
 
 class RecipeList extends Content
@@ -13,6 +13,7 @@ class RecipeList extends Content
 	
 	public function displayContent()
 	{
+		
 		foreach ($this->recipes as $recipe)
 		{
 			$this->style->displayItem(array('name' => $recipe->name));

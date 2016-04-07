@@ -24,6 +24,10 @@
 	class Ingredient
 	{
 		public $id;
+		
+		public $amount; 	//Used only if included in a recipe
+		public $unitName;	//Used only if included in a recipe
+
 		public $name;
 		public $ingredientUnit;
 		public $ingredientType;

@@ -18,3 +18,25 @@ class Style
 	{
 	}
 }
+
+
+
+class TextStyle
+{
+	public function displayHeader()
+	{
+	}
+	
+	public function displayItem($arguments)
+	{
+		echo ("<p>".$arguments["text"]."</p>");
+	}
+	
+	public function displayItemEnd()
+	{
+	}
+	
+	public function displayFooter()
+	{
+	}
+}

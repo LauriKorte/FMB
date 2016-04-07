@@ -1,6 +1,6 @@
 <?php
 
-require_once("site/style.php");
+require_once(__DIR__ . "/../site/style.php");
 
 class RecipeListStyle extends Style
 {
