@@ -51,14 +51,18 @@ class Site extends Content
 	{
 		if ($this->gotContent)
 		{
+			
 			if (!is_null($this->contents))
 			{
 				foreach ($this->contents as $content)
 				{
+					$this->style->displayItem(array("name" => ""));
 					if (!is_null($content))
 						$content->display();
+					$this->style->displayItemEnd();
 				}
 			}
+			
 		}
 		else
 		{

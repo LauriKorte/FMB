@@ -13,6 +13,8 @@ class Authentication
 
 	private static function authenticate($uid, $passwd)
 	{
+		logout();
+
 		if ($uid == "admin" && $passwd == "secret")
 		{
 			$_SESSION["loginId"] = 1337;
@@ -23,7 +25,8 @@ class Authentication
 
 	public static function logout()
 	{
-		unset($_SESSION["loginId"]);
+		if (isset($_SESSION["loginId"]))
+			unset($_SESSION["loginId"]);
 	}
 
 	public function __construct()

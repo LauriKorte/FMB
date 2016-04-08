@@ -30,7 +30,7 @@ class RecipeDisplayStyle extends Style
 	}
 	public function displayItemEnd()
 	{
-		echo ("<div/>");
+		echo ("</div>");
 	}
 	public function displayFooter()
 	{

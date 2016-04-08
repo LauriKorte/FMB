@@ -9,6 +9,7 @@ class LoginFormStyle extends Style
 	}
 	public function displayItem($arguments)
 	{
+		echo ("<div>");
 		?>
 		<form method="post" action="<?php echo($arguments['address']);?>">
 		Username:<input type="text" name="loginUser"><br />
@@ -19,7 +20,7 @@ class LoginFormStyle extends Style
 	}
 	public function displayItemEnd()
 	{
-		echo ("<div/>");
+		echo ("</div>");
 	}
 	public function displayFooter()
 	{

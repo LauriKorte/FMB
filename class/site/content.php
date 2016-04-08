@@ -1,7 +1,7 @@
 <?php
 require_once("style.php");
 
-
+//A class that is used to display things
 class BaseContent
 {	
 	public function display()
@@ -10,11 +10,11 @@ class BaseContent
 	}
 }
 
-
+//A class that is used to display thing with style
 class Content extends BaseContent
 {
 	public $style;
-	
+
 	public function display()
 	{
 		if (!is_null($this->style))
@@ -64,5 +64,29 @@ class ItemContent extends Content
 	{
 		$this->style->displayItem($this->arguments);
 		$this->style->displayItemEnd();	
+	}
+}
+
+class ContainerContent extends Content
+{
+	public $style;
+	public $contents;
+	public $arguments;
+
+	public function __construct($style = null, $contents = null, $arguments = array())
+	{
+		$this->style = $style;
+		$this->contents = $contents;
+		$this->arguments = $arguments;
+	}
+	
+	public function displayContent()
+	{
+		foreach ($this->contents as $content)
+		{
+			$this->style->displayItem($this->arguments);
+			$content->display();
+			$this->style->displayItemEnd();	
+		}
 	}
 }

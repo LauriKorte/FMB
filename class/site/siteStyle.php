@@ -9,31 +9,38 @@ class SiteStyle extends Style
 	{
 		$this->title = "";
 	}
+
 	public function displayHeader()
 	{
-		echo (
-<<<HTMLHEADER
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8"/>
-<title>
-{$this->title}
-</title>
-</head>
-<body>
-
-		
-HTMLHEADER
-		);
+		echo ("
+		<!DOCTYPE html>
+		<html>
+		<head>
+		<meta charset='UTF-8'/>
+		<title>
+		{$this->title}
+		</title>
+		</head>
+		<body>
+		");
 	}
+
+	public function displayItem($arguments)
+	{
+		echo ("
+			<!-- Beginning of content {$arguments['name']} -->
+			");
+	}
+	
+	public function displayItemEnd()
+	{
+	}
+
 	public function displayFooter()
 	{
-		echo (
-<<<HTMLFOOTER
-</body>
-</html>
-HTMLFOOTER
-		);
+		echo ("
+		</body>
+		</html>
+		");
 	}
 }
