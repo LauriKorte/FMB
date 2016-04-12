@@ -18,10 +18,10 @@ class RecipeDisplayStyle extends Style
 			//echo ("<li><ul>{$arguments['recipe']->description}</ul>");
 			//echo ("<ul>{$arguments['recipe']->description}</ul></li>");
 			echo ("<p>{$arguments['recipe']->description}</p>");
-			echo ("<li>");
+			echo ("<ul>");
 			foreach ($arguments['recipe']->ingredients as $ingr)
-				echo ("<ul>{$ingr->name}: {$ingr->amount} {$ingr->unitName}</ul>");
-			echo ("</li>");
+				echo ("<li>{$ingr->name}: {$ingr->amount} {$ingr->unitName}</li>");
+			echo ("</ul>");
 		}
 		else
 		{

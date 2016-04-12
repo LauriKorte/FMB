@@ -26,6 +26,9 @@ class SiteStyle extends Style
 		</title>
 		</head>
 		<body>
+		<div class='container-fluid'>
+	<div class='row'>
+		<div class='col-md-12'>
 		");
 	}
 
@@ -43,6 +46,9 @@ class SiteStyle extends Style
 	public function displayFooter()
 	{
 		echo ("
+		</div>
+		</div>      
+		</div>
 		</body>
 		</html>
 		");
