@@ -138,6 +138,266 @@
 			
 			return $this->parseIngredients($result);
 		}
+/*--------------------------------Miun muutokset--------------------------------------*/	
+		private function parseDifficulty($recipeResult)
+		{
+			$return = array();
+			foreach ($recipeResult as $rownum => $row)
+			{
+				$rcp = new Recipe();
+				$rcp->id = $row['id'];
+				$rcp->name = $this->convertCharSet($row['name']);
+				$rcp->description = $this->convertCharSet($row['description']);
+				array_push($return, $rcp);
+			}
+			return $return;
+		}
 		
+		public function getDifficulty($first = 0, $last = -1)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			$sql = 'SELECT * FROM rcp_difficulty ';
+			
+			$result = $this->doRangedQuery($first,$last,$sql);
+			
+			return $this->parseDifficulty($result);
+		}
+		
+		private function parseAmountOfAttention($recipeResult)
+		{
+			$return = array();
+			foreach ($recipeResult as $rownum => $row)
+			{
+				$rcp = new Recipe();
+				$rcp->id = $row['id'];
+				$rcp->name = $this->convertCharSet($row['name']);
+				$rcp->description = $this->convertCharSet($row['description']);
+				array_push($return, $rcp);
+			}
+			return $return;
+		}
+		
+		public function getAmountOfAttention($first = 0, $last = -1)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			$sql = 'SELECT * FROM rcp_amountOfAttention ';
+			
+			$result = $this->doRangedQuery($first,$last,$sql);
+			
+			return $this->parseAmountOfAttention($result);
+		}
+		
+		private function parseDishType($recipeResult)
+		{
+			$return = array();
+			foreach ($recipeResult as $rownum => $row)
+			{
+				$rcp = new Recipe();
+				$rcp->id = $row['id'];
+				$rcp->name = $this->convertCharSet($row['name']);
+				$rcp->description = $this->convertCharSet($row['description']);
+				array_push($return, $rcp);
+			}
+			return $return;
+		}
+		
+		public function getDishType($first = 0, $last = -1)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			$sql = 'SELECT * FROM rcp_dishType ';
+			
+			$result = $this->doRangedQuery($first,$last,$sql);
+			
+			return $this->parseDishType($result);
+		}
+		
+		private function parseIngredientType($recipeResult)
+		{
+			$return = array();
+			foreach ($recipeResult as $rownum => $row)
+			{
+				$rcp = new Recipe();
+				$rcp->id = $row['id'];
+				$rcp->name = $this->convertCharSet($row['name']);
+				$rcp->description = $this->convertCharSet($row['description']);
+				array_push($return, $rcp);
+			}
+			return $return;
+		}
+		
+		public function getIngredientType($first = 0, $last = -1)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			$sql = 'SELECT * FROM rcp_ingredientType ';
+			
+			$result = $this->doRangedQuery($first,$last,$sql);
+			
+			return $this->parseIngredientType($result);
+		}
+		
+		private function parseIngredientStorage($recipeResult)
+		{
+			$return = array();
+			foreach ($recipeResult as $rownum => $row)
+			{
+				$rcp = new Recipe();
+				$rcp->id = $row['id'];
+				$rcp->name = $this->convertCharSet($row['name']);
+				$rcp->description = $this->convertCharSet($row['description']);
+				array_push($return, $rcp);
+			}
+			return $return;
+		}
+		
+		public function getIngredientStorage($first = 0, $last = -1)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			$sql = 'SELECT * FROM rcp_ingredientStorage ';
+			
+			$result = $this->doRangedQuery($first,$last,$sql);
+			
+			return $this->parseIngredientStorage($result);
+		}
+		
+		private function parseIngredientUnit($recipeResult)
+		{
+			$return = array();
+			foreach ($recipeResult as $rownum => $row)
+			{
+				$rcp = new Recipe();
+				$rcp->id = $row['id'];
+				$rcp->name = $this->convertCharSet($row['name']);
+				$rcp->description = $this->convertCharSet($row['description']);
+				array_push($return, $rcp);
+			}
+			return $return;
+		}
+		
+		public function getIngredientUnit($first = 0, $last = -1)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			$sql = 'SELECT * FROM rcp_ingredientUnit ';
+			
+			$result = $this->doRangedQuery($first,$last,$sql);
+			
+			return $this->parseIngredientUnit($result);
+		}
+		
+		private function parseManufacturingTime($recipeResult)
+		{
+			$return = array();
+			foreach ($recipeResult as $rownum => $row)
+			{
+				$rcp = new Recipe();
+				$rcp->id = $row['id'];
+				$rcp->name = $this->convertCharSet($row['name']);
+				$rcp->description = $this->convertCharSet($row['description']);
+				array_push($return, $rcp);
+			}
+			return $return;
+		}
+		
+		public function getManufacturingTime($first = 0, $last = -1)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			$sql = 'SELECT * FROM rcp_manufacturingTime ';
+			
+			$result = $this->doRangedQuery($first,$last,$sql);
+			
+			return $this->parseManufacturingTime($result);
+		}
+		
+		private function parseRating($recipeResult)
+		{
+			$return = array();
+			foreach ($recipeResult as $rownum => $row)
+			{
+				$rcp = new Recipe();
+				$rcp->id = $row['id'];
+				$rcp->name = $this->convertCharSet($row['name']);
+				$rcp->description = $this->convertCharSet($row['description']);
+				array_push($return, $rcp);
+			}
+			return $return;
+		}
+		
+		public function getRating($first = 0, $last = -1)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			$sql = 'SELECT * FROM rcp_rating ';
+			
+			$result = $this->doRangedQuery($first,$last,$sql);
+			
+			return $this->parseRating($result);
+		}
+		
+		private function parseResultType($recipeResult)
+		{
+			$return = array();
+			foreach ($recipeResult as $rownum => $row)
+			{
+				$rcp = new Recipe();
+				$rcp->id = $row['id'];
+				$rcp->name = $this->convertCharSet($row['name']);
+				$rcp->description = $this->convertCharSet($row['description']);
+				array_push($return, $rcp);
+			}
+			return $return;
+		}
+		
+		public function getResultType($first = 0, $last = -1)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			$sql = 'SELECT * FROM rcp_resultType ';
+			
+			$result = $this->doRangedQuery($first,$last,$sql);
+			
+			return $this->parseResultType($result);
+		}
 	}
 	
