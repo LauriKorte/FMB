@@ -15,7 +15,7 @@ class NavBarStyle extends Style
 		{
 			foreach ($arguments['links'] as $text => $target)
 			{
-				echo ("<a href='{$target}'/>{$text}</a>");
+				echo ("<a href='{$target}'/>{$text}</a><br>");
 			}
 		}
 	}

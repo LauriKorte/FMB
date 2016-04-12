@@ -1,5 +1,5 @@
 <?php
-	require_once("../db-init.php");
+	require_once("/home/H9115/public_html/phpconf/db-init-rcp.php");
 	require_once("recipe.php");
 	
 	class DBMaster

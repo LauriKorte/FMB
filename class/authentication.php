@@ -13,7 +13,7 @@ class Authentication
 
 	private static function authenticate($uid, $passwd)
 	{
-		logout();
+		Authentication::logout();
 
 		if ($uid == "admin" && $passwd == "secret")
 		{

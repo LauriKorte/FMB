@@ -21,7 +21,7 @@
 
 	//If we are in a subdirectory
 	//this should be used
-	$DomainPrefix = "";
+	$DomainPrefix = "/~H9115/fmb/FMB";
 
 
 	session_start();
@@ -74,10 +74,10 @@
 	$sitem->addGetMatch("%^/navbar$%", function ($_)
 	{
 		global $DomainPrefix;
-		return new ItemContent(new NavBarStyle(), ["links" => [
+		return new ItemContent(new NavBarStyle(), array("links" => array(
 			"Front" => $DomainPrefix."/",
 			"Test recipe" => $DomainPrefix."/getrecipe/1",
-			"Loggin'" => $DomainPrefix."/loginForm"]]);
+			"Loggin'" => $DomainPrefix."/loginForm")));
 	});
 
 	//Match for url: /login
@@ -96,7 +96,7 @@
 			$arr = array($itc, $ckr);
 			return new ContentGroup($arr);
 		}
-		return new ItemContent(new TextStyle(), ["text" => "You log in!!!"]);
+		return new ItemContent(new TextStyle(), array("text" => "You log in!!!"));
 		
 	});
 
@@ -115,22 +115,22 @@
 	//Displays the front page
 	$sitem->addGetMatch("%^/$%", function ($_)
 	{
-		return new ItemContent(new TextStyle(), ["text" => "guess this a front page"]);
+		return new ItemContent(new TextStyle(), array("text" => "guess this a front page"));
 	});
 
 	//Match for everything else
 	$sitem->addGetMatch("%.+%", function ($_)
 	{
-		return new ItemContent(new TextStyle(), ["text" => "404 not found"]);
+		return new ItemContent(new TextStyle(), array("text" => "404 not found"));
 	});
 
 
 	$content = $sitem->get($_GET["_url"]);
 
-	$cg = [
+	$cg = array(
 			$sitem->get("/navbar"),
 			$content
-	];
+	);
 
 
 	$site = new Site();
