@@ -15,13 +15,15 @@
 	require_once("class/content/navbar.php");
 	require_once("class/content/recipeDisplay.php");
 	require_once("class/content/loginForm.php");
+	require_once("class/content/pageLinks.php");
+	require_once("class/content/addRecipe.php");
 
 	require_once("class/site/content.php");
 	require_once("class/authentication.php");
 
 	//If we are in a subdirectory
 	//this should be used
-	$DomainPrefix = "/~H9115/fmb/FMB";
+	$DomainPrefix = "";
 
 
 	session_start();
@@ -62,22 +64,135 @@
 	//Displays a list of recipes from (first) to (last)
 	$sitem->addGetMatch("%^/getrecipelist/([0-9]+):([0-9]+)$%", function ($rcp) use ($db)
 	{
+		global $DomainPrefix;
 		//Same thing as above,
 		//except with two capture groups
 
 		$rcpList = new RecipeList();
+		$rcpList->linkPrefix = $DomainPrefix."/getrecipe/";
 		$rcpList->recipes = $db->getRecipes((int)$rcp[1],(int)$rcp[2]);
 		return $rcpList;
+	});
+
+
+	//Match for url: /recipebrowse/(page)
+	//Displays a linked list of recipes page (page)
+	$sitem->addGetMatch("%^/browse/([0-9]+)$%", function ($rcp) use ($db, $sitem)
+	{
+		global $DomainPrefix;
+		$cnt = $db->getRecipeCount();
+		$pages = ceil($cnt/10);
+		$curPage = (int)$rcp[1];
+
+		$from = $curPage*10;
+		$to = $from+10;
+
+		$rcpList = $sitem->get("/getrecipelist/".((string)$from).":".((string)$to));
+
+
+		$links = array();
+		for ($i = 0; $i < $pages; $i++)
+		{
+			$links[((string)$i+1)] = $DomainPrefix."/browse/".((string)$i);
+		}
+
+		$plinks = new ItemContent(new PageLinksStyle(), array("links" => $links));
+		$cg = new ContentGroup(array($rcpList, $plinks));
+
+
+		return $cg;
+	});
+	//Match for url: /addrecipe
+	$sitem->addGetMatch("%^/addrecipe$%", function ($_) use ($sitem)
+	{
+
+		$auth = new Authentication();
+
+		if (!$auth->isLoggedIn())
+		{
+			$itc = new ItemContent(new TextStyle(), array("text" => "Please log in first"));
+
+			$ckr = $sitem->get("/loginForm");
+			$arr = array($itc, $ckr);
+			return new ContentGroup($arr);
+		}
+
+		return new ItemContent(new RecipeAddStyle(), array());
+	});
+
+	//Match for url: /postrecipe
+	$sitem->addGetMatch("%^/postrecipe$%", function ($_) use ($sitem, $db)
+	{
+
+		$auth = new Authentication();
+
+		if (!$auth->isLoggedIn())
+		{
+			$itc = new ItemContent(new TextStyle(), array("text" => "Please log in first"));
+
+			$ckr = $sitem->get("/loginForm");
+			$arr = array($itc, $ckr);
+			return new ContentGroup($arr);
+		}
+
+		$rcp = new Recipe();
+		
+		$rcp->name = $_POST["name"];
+		$rcp->description = $_POST["description"];
+		$rcp->dishType = $_POST["dishtype"];
+		$rcp->amountOfAttention = $_POST["attention"];
+		$rcp->difficulty = $_POST["difficulty"];
+		$rcp->resultType = $_POST["result"];
+		$rcp->manufacturingTime = $_POST["time"];
+
+		$ingr = json_decode($_POST["ingredients"]);
+		$rcp->ingredients = $ingr;
+
+		$ret = $db->addRecipe($rcp);
+		if (!$ret)
+			return new ItemContent(new TextStyle(), array("text" => "No recipe gone in :(((("));			
+
+		return new ItemContent(new TextStyle(), array("text" => "Da recipe gone in!!!11"));
+	});
+
+	//Match for url: /deleterecipe/(id)
+	$sitem->addGetMatch("%^/deleterecipe/([0-9]+)$%", function ($rcp) use ($sitem, $db)
+	{
+
+		$auth = new Authentication();
+
+		if (!$auth->isLoggedIn())
+		{
+			$itc = new ItemContent(new TextStyle(), array("text" => "Please log in first"));
+
+			$ckr = $sitem->get("/loginForm");
+			$arr = array($itc, $ckr);
+			return new ContentGroup($arr);
+		}
+		
+		$ret = $db->deleteRecipe((int)$rcp[1]);
+		if (!$ret)
+			return new ItemContent(new TextStyle(), array("text" => "No recipe got rekt :(((("));	
+		return new ItemContent(new TextStyle(), array("text" => "Da recipe got rekt!"));
 	});
 
 	//Match for url: /navbar
 	$sitem->addGetMatch("%^/navbar$%", function ($_)
 	{
+		$auth = new Authentication();
 		global $DomainPrefix;
-		return new ItemContent(new NavBarStyle(), array("links" => array(
+
+		$links = array(
 			"Front" => $DomainPrefix."/",
-			"Test recipe" => $DomainPrefix."/getrecipe/1",
-			"Loggin'" => $DomainPrefix."/loginForm")));
+			"Brouse" => $DomainPrefix."/browse/0",
+			"Loggin'" => $DomainPrefix."/loginForm");
+
+		if ($auth->isLoggedIn())
+		{
+			$links["Write recipe"] = $DomainPrefix."/addrecipe";
+		}
+
+		return new ItemContent(new NavBarStyle(), array("links" => $links));
 	});
 
 	//Match for url: /login

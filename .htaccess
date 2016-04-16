@@ -1,5 +1,5 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase "/~H9115/fmb/FMB/"
+    RewriteBase "/"
     RewriteRule ^((?s).*)$ index.php?_url=/$1 [QSA,L]
 </IfModule>

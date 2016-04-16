@@ -1,5 +1,5 @@
 <?php
-	require_once("/home/H9115/public_html/phpconf/db-init-rcp.php");
+	require_once("../db-init.php");
 	require_once("recipe.php");
 	
 	class DBMaster
@@ -85,6 +85,27 @@
 			return $rcp;
 		}
 
+		public function getIngredientsWithUnits()
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return null;
+			}
+
+			$sql = 'SELECT ing.id as id, ing.name as name, ingunit.shorthand as unitname
+					FROM rcp_ingredient AS ing
+					LEFT JOIN rcp_ingredientUnit as ingunit ON ing.ingredientUnit_id = ingunit.id';
+					
+			$qr = $this->db->prepare($sql);
+			$qr->execute();
+			$result = $qr->fetchAll();
+			return $this->parseIngredients($result);
+			
+		}
+
+
+
 		private function doRangedQuery($first,$last,$sql)
 		{
 			$qr;
@@ -107,6 +128,97 @@
 			}
 			$qr->execute();
 			return $qr->fetchAll();
+		}
+
+		public function getRecipeCount()
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			$sql = 'SELECT COUNT(*) as cnt FROM rcp_recipe';
+			
+			$qr = $this->db->prepare($sql);
+			$qr->execute();
+			
+			return $qr->fetch()["cnt"];
+		}
+
+
+		public function addRecipe($rcp)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			$sql = 'INSERT INTO rcp_recipe 
+					(name,description,
+					manufacturingTime_id,resultType_id,
+					amountOfAttention_id,difficulty_id,dishType_id)
+					values
+					(:name, :description, :mtime, :rtype, :attn, :diff, :dishtype);';
+
+			$qr = $this->db->prepare($sql);
+			$qr->bindValue(':name', $rcp->name, PDO::PARAM_STR);
+			$qr->bindValue(':description', $rcp->description, PDO::PARAM_STR);
+			$qr->bindValue(':mtime', $rcp->manufacturingTime, PDO::PARAM_INT);
+			$qr->bindValue(':rtype', $rcp->resultType, PDO::PARAM_INT);
+			$qr->bindValue(':attn', $rcp->amountOfAttention, PDO::PARAM_INT);
+			$qr->bindValue(':diff', $rcp->difficulty, PDO::PARAM_INT);
+			$qr->bindValue(':dishtype', $rcp->dishType, PDO::PARAM_INT);
+			
+			$res = $qr->execute();
+			if (!$res)
+				return false;
+
+			if (count($rcp->ingredients) == 0)
+				return true;
+			$lid = $this->db->lastInsertId();
+
+			$params = array();
+			$sql = 'INSERT INTO rcp_recipe_has_ingredient (recipe_id, ingredient_id, amount) values ';
+			$isFirst = true;
+			foreach ($rcp->ingredients as $ing)
+			{
+				if (!$isFirst)
+					$sql .= ',';
+				$isFirst = false;
+				$sql .= '( ? ,  ?, ? )';
+				array_push($params, (int)$lid);
+				array_push($params, (int)$ing->id);
+				array_push($params, (int)$ing->amount);
+
+			}
+			$qr = $this->db->prepare($sql);
+			$res = $qr->execute($params);
+			
+			print_r($qr->fetch());
+			return $res;
+		}
+
+		public function deleteRecipe($rid)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			$sql = 'DELETE FROM rcp_recipe_has_ingredient WHERE recipe_id=:iad ';
+			$qr = $this->db->prepare($sql);
+			$qr->bindValue(':iad', $rid, PDO::PARAM_INT);
+			if (!$qr->execute())
+				return false;
+			$sql = 'DELETE FROM rcp_recipe WHERE id=:iad ';
+
+			$qr = $this->db->prepare($sql);
+
+			$qr->bindValue(':iad', $rid, PDO::PARAM_INT);
+			
+			return $qr->execute();
 		}
 		
 		public function getRecipes($first = 0, $last = -1)
@@ -321,7 +433,8 @@
 				$rcp = new Recipe();
 				$rcp->id = $row['id'];
 				$rcp->name = $this->convertCharSet($row['name']);
-				$rcp->description = $this->convertCharSet($row['description']);
+				$rcp->minimumTime = $this->convertCharSet($row['minimumTime']);
+				$rcp->maximumTime = $this->convertCharSet($row['maximumTime']);
 				array_push($return, $rcp);
 			}
 			return $return;

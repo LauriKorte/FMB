@@ -38,7 +38,7 @@ class Authentication
 		}
 		else if (isset($_SESSION["loginId"]))
 		{
-			$this->authStage = Authentication::getAuthenticationLevel("loginId");
+			$this->authStage = Authentication::getAuthenticationLevel($_SESSION["loginId"]);
 		}
 	}
 

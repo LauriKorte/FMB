@@ -5,6 +5,7 @@ require_once("recipeListStyle.php");
 class RecipeList extends Content
 {
 	public $recipes;
+	public $linkPrefix;
 	
 	public function __construct()
 	{
@@ -16,7 +17,8 @@ class RecipeList extends Content
 		
 		foreach ($this->recipes as $recipe)
 		{
-			$this->style->displayItem(array('name' => $recipe->name));
+			$this->style->displayItem(
+				array('name' => $recipe->name, 'link' => $this->linkPrefix.((string)$recipe->id)));
 			$this->style->displayItemEnd();
 		}
 	}

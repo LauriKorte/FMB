@@ -6,18 +6,18 @@ class RecipeListStyle extends Style
 {
 	public function displayHeader()
 	{
-		echo ("<h1>dA LIST</h1>");
+		echo('<table class="table table-striped">');
 	}
 	public function displayItem($arguments)
 	{
-		echo ("<div><h2>{$arguments['name']}</h2>");
+		echo ("<tr><td><a href='{$arguments['link']}'>Recipe: {$arguments['name']}</a></td>");
+		echo ("</tr>");
 	}
 	public function displayItemEnd()
 	{
-		echo ("</div>");
 	}
 	public function displayFooter()
 	{
-		echo ("");
+		echo('</table>');
 	}
 }

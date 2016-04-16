@@ -1,6 +1,8 @@
 <?php
 require_once(__DIR__ . "/../site/content.php");
 require_once(__DIR__ . "/../site/style.php");
+require_once(__DIR__ . "/../authentication.php");
+
 
 class RecipeDisplayStyle extends Style
 {
@@ -10,7 +12,9 @@ class RecipeDisplayStyle extends Style
 	}
 	public function displayItem($arguments)
 	{
-		echo ("<div>");
+
+		global $DomainPrefix;
+		echo ('<div class="col-md-4">');
 
 		if (!is_null($arguments['recipe']))
 		{
@@ -22,6 +26,13 @@ class RecipeDisplayStyle extends Style
 			foreach ($arguments['recipe']->ingredients as $ingr)
 				echo ("<li>{$ingr->name}: {$ingr->amount} {$ingr->unitName}</li>");
 			echo ("</ul>");
+
+			$auth = new Authentication();
+			if ($auth->isLoggedIn())
+			{
+				echo ("<a href='{$DomainPrefix}/deleterecipe/{$arguments['recipe']->id}'> Delete recipe </a>");
+			}
+
 		}
 		else
 		{
