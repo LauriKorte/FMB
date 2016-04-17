@@ -24,6 +24,22 @@
 				$rcp->id = $row['id'];
 				$rcp->name = $this->convertCharSet($row['name']);
 				$rcp->description = $this->convertCharSet($row['description']);
+				
+				if (isset($row['resulttype']))
+					$rcp->resultType = $row['resulttype'];
+
+				if (isset($row['amountOfAttention']))
+					$rcp->amountOfAttention = $row['amountOfAttention'];
+					
+				if (isset($row['dishType']))
+					$rcp->dishType = $row['dishType'];
+					
+				if (isset($row['difficulty']))
+					$rcp->difficulty = $row['difficulty'];
+					
+				if (isset($row['manufacturingTime']))
+					$rcp->manufacturingTime = $row['manufacturingTime'];
+					
 				array_push($return, $rcp);
 			}
 			return $return;
@@ -55,7 +71,15 @@
 				echo("DB connection not established");
 				return null;
 			}
-			$sql = 'SELECT * FROM rcp_recipe WHERE id = :id';
+			$sql = 'SELECT rcp.name, rcp.description, rcp.id, rt.name AS resulttype, diff.name AS difficulty,
+					aoa.name AS amountOfAttention, dt.name AS dishType, mft.name AS manufacturingTime
+					FROM rcp_recipe AS rcp
+					LEFT JOIN rcp_manufacturingTime AS mft ON rcp.manufacturingTime_id = mft.id
+					LEFT JOIN rcp_resultType AS rt ON rcp.resultType_id = rt.id
+					LEFT JOIN rcp_difficulty AS diff ON rcp.difficulty_id = diff.id
+					LEFT JOIN rcp_amountOfAttention AS aoa ON rcp.amountOfAttention_id = aoa.id
+					LEFT JOIN rcp_dishType AS dt ON rcp.dishType_id = dt.id
+					WHERE rcp.id = :id';
 			
 			$qr = $this->db->prepare($sql);
 			$qr->execute(array('id' => $id));
