@@ -42,7 +42,7 @@ class ReviewList extends Content
 		foreach ($this->reviews as $review)
 		{
 			$this->style->displayItem(
-				array('name' => (string)$review->date, 'link' => $this->linkPrefix.((string)$review->id)));
+				array('name' => $review->recipeName." ".(string)$review->date, 'link' => $this->linkPrefix.((string)$review->id)));
 			$this->style->displayItemEnd();
 		}
 	}

@@ -277,6 +277,27 @@
 			return new ItemContent(new TextStyle(), array("text" => "No recipe got rekt :(((("));	
 		return new ItemContent(new TextStyle(), array("text" => "Da recipe got rekt!"));
 	});
+	
+	//Match for url: /deletereview/(id)
+	$sitem->addGetMatch("%^/deletereview/([0-9]+)$%", function ($rcp) use ($sitem, $db)
+	{
+
+		$auth = new Authentication();
+
+		if (!$auth->isLoggedIn())
+		{
+			$itc = new ItemContent(new TextStyle(), array("text" => "Please log in first"));
+
+			$ckr = $sitem->get("/loginForm");
+			$arr = array($itc, $ckr);
+			return new ContentGroup($arr);
+		}
+		
+		$ret = $db->deleteReview((int)$rcp[1]);
+		if (!$ret)
+			return new ItemContent(new TextStyle(), array("text" => "No review got rekt :(((("));	
+		return new ItemContent(new TextStyle(), array("text" => "Da review got rekt!"));
+	});
 
 	//Match for url: /navbar
 	$sitem->addGetMatch("%^/navbar$%", function ($_)

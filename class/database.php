@@ -309,18 +309,50 @@
 				echo("DB connection not established");
 				return array();
 			}
-			$sql = 'DELETE FROM rcp_recipe_has_ingredient WHERE recipe_id=:iad ';
-			$qr = $this->db->prepare($sql);
-			$qr->bindValue(':iad', $rid, PDO::PARAM_INT);
-			if (!$qr->execute())
-				return false;
-			$sql = 'DELETE FROM rcp_recipe WHERE id=:iad ';
-
-			$qr = $this->db->prepare($sql);
-
-			$qr->bindValue(':iad', $rid, PDO::PARAM_INT);
+			try
+			{
+				$sql = 'DELETE FROM rcp_recipe_has_ingredient WHERE recipe_id=:iad ';
+				$qr = $this->db->prepare($sql);
+				$qr->bindValue(':iad', $rid, PDO::PARAM_INT);
+				if (!$qr->execute())
+					return false;
 			
-			return $qr->execute();
+				$sql = 'DELETE FROM rcp_recipe WHERE id=:iad ';
+
+				$qr = $this->db->prepare($sql);
+
+				$qr->bindValue(':iad', $rid, PDO::PARAM_INT);
+				
+				return $qr->execute();
+			}
+			catch (Exception $e)
+			{
+				return false;
+			}
+		}
+		
+		public function deleteReview($rid)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			try
+			{
+				$sql = 'DELETE FROM rcp_recipeHistory WHERE id=:iad ';
+				$qr = $this->db->prepare($sql);
+				$qr->bindValue(':iad', $rid, PDO::PARAM_INT);
+				if (!$qr->execute())
+					return false;
+			
+				return true;
+			}
+			catch (Exception $e)
+			{
+				return false;
+			}
+			return false;
 		}
 		
 		public function getRecipes($first = 0, $last = -1)

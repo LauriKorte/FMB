@@ -39,9 +39,9 @@ class RecipeDisplayStyle extends Style
 			$auth = new Authentication();
 			if ($auth->isLoggedIn())
 			{
-				echo ("<a href='{$DomainPrefix}/addreview/{$arguments['recipe']->id}'><button type="button" class="btn btn-info">Write review</button></a>");
+				echo ("<a href='{$DomainPrefix}/addreview/{$arguments['recipe']->id}'><button type='button' class='btn btn-info'>Write review</button></a>");
 				echo ("<br>");
-				echo ("<a href='{$DomainPrefix}/deleterecipe/{$arguments['recipe']->id}'><button type="button" class="btn btn-danger">Delete recipe</button></a>");
+				echo ("<a href='{$DomainPrefix}/deleterecipe/{$arguments['recipe']->id}'><button type='button' class='btn btn-danger'>Delete recipe</button></a>");
 				
 			}
 
