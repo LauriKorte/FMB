@@ -338,8 +338,7 @@
 			$arr = array($itc, $ckr);
 			return new ContentGroup($arr);
 		}
-		return new ItemContent(new TextStyle(), array("text" => "You log in!!!"));
-		
+		return $sitem->get("/");
 	});
 
 	//Match for url: /loginform
@@ -354,11 +353,11 @@
 	});
 	
 	//Match for url: /logout
-	$sitem->addGetMatch("%^/logout$%", function ($_)
+	$sitem->addGetMatch("%^/logout$%", function ($_) use ($sitem)
 	{
 		global $DomainPrefix;
 		Authentication::logout();
-		return new ItemContent(new TextStyle(), array("text" => "You log out!!!"));
+		return $sitem->get("/loginForm");
 	});
 
 	//Match for url: /
