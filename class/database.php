@@ -280,7 +280,12 @@
 				echo("DB connection not established");
 				return array();
 			}
-			
+			if (!preg_match("/^.+$/",$rcp->personalComment))
+			{
+				return "Please type a comment!";
+				
+				
+			}
 			
 			$sql = 'INSERT INTO rcp_recipeHistory
 					(recipe_id,date,
@@ -293,6 +298,8 @@
 			$qr->bindValue(':dtt', $rcp->date, PDO::PARAM_STR);
 			$qr->bindValue(':rating', $rcp->rating, PDO::PARAM_INT);
 			$qr->bindValue(':comment', $rcp->personalComment, PDO::PARAM_STR);
+			
+			
 
 			$res = $qr->execute();
 			if (!$res)
