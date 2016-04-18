@@ -16,6 +16,7 @@
 	require_once("class/content/navbar.php");
 	require_once("class/content/abootStyle.php");
 	require_once("class/content/recipeDisplay.php");
+	require_once("class/content/reviewDisplay.php");
 	require_once("class/content/loginForm.php");
 	require_once("class/content/pageLinks.php");
 	require_once("class/content/addRecipe.php");
@@ -95,8 +96,8 @@
 	$sitem->addGetMatch("%^/getreview/([0-9]+)$%", function ($rcp) use ($db)
 	{
 		$rv = $db->getReviewWithRecipe((int)$rcp[1]);
-		$text = "Review for '".$rv->recipeName."'<br> Rating: <strong>".$rv->ratingName."</strong><br>".$rv->personalComment;
-		return new ItemContent(new TextStyle(), array("text" => $text));
+	//	$text = "Review for '".$rv->recipeName."'<br> Rating: <strong>".$rv->ratingName."</strong><br>".$rv->personalComment;
+		return new ItemContent(new ReviewDisplayStyle(), array("review" => $rv));
 	});
 
 
