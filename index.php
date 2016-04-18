@@ -236,7 +236,8 @@
 		$links = array(
 			"Front" => $DomainPrefix."/",
 			"Brouse" => $DomainPrefix."/browse/0",
-			"Loggin'" => $DomainPrefix."/loginForm");
+			"Loggin'" => $DomainPrefix."/loginForm",
+			"Aboot" => $DomainPrefix."/about");
 
 		if ($auth->isLoggedIn())
 		{
