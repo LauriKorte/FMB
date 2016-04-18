@@ -1,5 +1,5 @@
 <?php
-	require_once("../db-init.php");
+	require_once("/home/H9115/public_html/phpconf/db-init-rcp.php");
 	require_once("recipe.php");
 	
 	class DBMaster
@@ -167,7 +167,8 @@
 			$qr = $this->db->prepare($sql);
 			$qr->execute();
 			
-			return $qr->fetch()["cnt"];
+			$arr = $qr->fetch();
+			return $arr["cnt"];
 		}
 
 
@@ -178,6 +179,9 @@
 				echo("DB connection not established");
 				return array();
 			}
+			
+			if (strlen($rcp->name) <= 2)
+				return "Please enter a name!";
 			
 			$sql = 'INSERT INTO rcp_recipe 
 					(name,description,
@@ -197,10 +201,10 @@
 			
 			$res = $qr->execute();
 			if (!$res)
-				return false;
+				return "No can do!";
 
 			if (count($rcp->ingredients) == 0)
-				return true;
+				return "Recipe gone in!!!";
 			$lid = $this->db->lastInsertId();
 
 			$params = array();
@@ -220,8 +224,7 @@
 			$qr = $this->db->prepare($sql);
 			$res = $qr->execute($params);
 			
-			print_r($qr->fetch());
-			return $res;
+			return "Recipe gone in!!!";
 		}
 
 		public function deleteRecipe($rid)
@@ -486,8 +489,8 @@
 			{
 				$rcp = new Recipe();
 				$rcp->id = $row['id'];
-				$rcp->name = $this->convertCharSet($row['name']);
 				$rcp->description = $this->convertCharSet($row['description']);
+				$rcp->stars = $this->convertCharSet($row['stars']);
 				array_push($return, $rcp);
 			}
 			return $return;

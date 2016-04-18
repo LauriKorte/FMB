@@ -17,13 +17,14 @@
 	require_once("class/content/loginForm.php");
 	require_once("class/content/pageLinks.php");
 	require_once("class/content/addRecipe.php");
+	require_once("class/content/addReview.php");
 
 	require_once("class/site/content.php");
 	require_once("class/authentication.php");
 
 	//If we are in a subdirectory
 	//this should be used
-	$DomainPrefix = "";
+	$DomainPrefix = "/~H9115/fmb/FMB";
 
 
 	session_start();
@@ -119,6 +120,31 @@
 
 		return new ItemContent(new RecipeAddStyle(), array());
 	});
+	
+	//Match for url: /addreview/(recipeid)
+	$sitem->addGetMatch("%^/addreview/([0-9]+)$%", function ($rcp) use ($db, $sitem)
+	{
+
+		$auth = new Authentication();
+
+		if (!$auth->isLoggedIn())
+		{
+			$itc = new ItemContent(new TextStyle(), array("text" => "Please log in first"));
+
+			$ckr = $sitem->get("/loginForm");
+			$arr = array($itc, $ckr);
+			return new ContentGroup($arr);
+		}
+		$integer = (int)($rcp[1]);
+		$recipe = $db->getRecipes($integer,$integer+1);
+		if (count($recipe) == 0)
+		{
+			return new ItemContent(new TextStyle(), array("text" => "Da recipe don't exist!"));
+		}
+		$recipe = $recipe[0];
+
+		return new ItemContent(new ReviewAddStyle(), array("recipe" => $recipe));
+	});
 
 	//Match for url: /postrecipe
 	$sitem->addGetMatch("%^/postrecipe$%", function ($_) use ($sitem, $db)
@@ -149,10 +175,41 @@
 		$rcp->ingredients = $ingr;
 
 		$ret = $db->addRecipe($rcp);
-		if (!$ret)
-			return new ItemContent(new TextStyle(), array("text" => "No recipe gone in :(((("));			
+		
+		return new ItemContent(new TextStyle(), array("text" => $ret));
+	});
+	
+	//Match for url: /postreview
+	$sitem->addGetMatch("%^/postreview$%", function ($_) use ($sitem, $db)
+	{
 
-		return new ItemContent(new TextStyle(), array("text" => "Da recipe gone in!!!11"));
+		$auth = new Authentication();
+
+		if (!$auth->isLoggedIn())
+		{
+			$itc = new ItemContent(new TextStyle(), array("text" => "Please log in first"));
+
+			$ckr = $sitem->get("/loginForm");
+			$arr = array($itc, $ckr);
+			return new ContentGroup($arr);
+		}
+
+		$rcp = new Recipe();
+		
+		$rcp->name = $_POST["name"];
+		$rcp->description = $_POST["description"];
+		$rcp->dishType = $_POST["dishtype"];
+		$rcp->amountOfAttention = $_POST["attention"];
+		$rcp->difficulty = $_POST["difficulty"];
+		$rcp->resultType = $_POST["result"];
+		$rcp->manufacturingTime = $_POST["time"];
+
+		$ingr = json_decode($_POST["ingredients"]);
+		$rcp->ingredients = $ingr;
+
+		$ret = $db->addRecipe($rcp);
+		
+		return new ItemContent(new TextStyle(), array("text" => $ret));
 	});
 
 	//Match for url: /deleterecipe/(id)
