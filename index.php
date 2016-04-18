@@ -283,6 +283,14 @@
 	{
 		return new ItemContent(new TextStyle(), array("text" => "guess this a front page"));
 	});
+	
+	$sitem->addGetMatch("%^/about$%", function ($_)
+	{
+		return new ItemContent(new TextStyle(), array("text" => "
+		<h1>About our Team</h1>
+		We are a bunch of students trying to make their way on this Earth. We are studying at JAMK University of Applied Sciences.
+		We made this RecipeBook for we wanted some place to store our precious recipes of our fine cookies and other stuff. We also made it as e"));
+	});
 
 	//Match for everything else
 	$sitem->addGetMatch("%.+%", function ($_)
