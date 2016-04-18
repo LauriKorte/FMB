@@ -12,6 +12,7 @@
 	require_once("class/site/site.php");
 
 	require_once("class/content/recipeList.php");
+	require_once("class/content/reviewList.php");
 	require_once("class/content/navbar.php");
 	require_once("class/content/recipeDisplay.php");
 	require_once("class/content/loginForm.php");
@@ -73,6 +74,27 @@
 		$rcpList->linkPrefix = $DomainPrefix."/getrecipe/";
 		$rcpList->recipes = $db->getRecipes((int)$rcp[1],(int)$rcp[2]);
 		return $rcpList;
+	});
+	
+	
+	//Match for url: /getreviewlist/(first):(last)
+	//Displays a list of reviews from (first) to (last)
+	$sitem->addGetMatch("%^/getreviewlist/([0-9]+):([0-9]+)$%", function ($rcp) use ($db)
+	{
+		global $DomainPrefix;
+		
+		$rcpList = new ReviewList();
+		$rcpList->linkPrefix = $DomainPrefix."/getreview/";
+		$rcpList->reviews = $db->getRecipeHistory((int)$rcp[1],(int)$rcp[2]);
+		return $rcpList;
+	});
+	
+	//Match for url: /getreview/(review_id)
+	//Displays detailed description of review (review_id)
+	$sitem->addGetMatch("%^/getreview/([0-9]+)$%", function ($rcp) use ($db)
+	{
+		$rv = $db->getReviewWithRecipe((int)$rcp[1]);
+		return new ItemContent(new TextStyle(), array("text" => $rv->personalComment));
 	});
 
 

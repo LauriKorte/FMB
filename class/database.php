@@ -108,6 +108,32 @@
 			$rcp->ingredients = $ingredients;
 			return $rcp;
 		}
+		
+		public function getReviewWithRecipe($id)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return null;
+			}
+			$sql = 'SELECT *
+					FROM rcp_recipeHistory AS rv
+					WHERE rv.id = :id';
+			
+			$qr = $this->db->prepare($sql);
+			$qr->execute(array('id' => $id));
+			$result = $qr->fetchAll();
+
+			if (count($result) == 0)
+			{
+				return null;
+			}
+			
+			$rcp = $this->parseRecipeHistory($result);
+			$rcp = $rcp[0];
+		
+			return $rcp;
+		}
 
 		public function getIngredientsWithUnits()
 		{
@@ -576,9 +602,9 @@
 			{
 				$rcp = new Recipe();
 				$rcp->id = $row['id'];
-				$rcp->recipe = $this->convertCharSet($row['recipe']);
+				$rcp->recipe = $this->convertCharSet($row['recipe_id']);
 				$rcp->date = $this->convertCharSet($row['date']);
-				$rcp->rating = $this->convertCharSet($row['rating']);
+				$rcp->rating = $this->convertCharSet($row['rating_id']);
 				$rcp->personalComment = $this->convertCharSet($row['personalComment']);
 				array_push($return, $rcp);
 			}
