@@ -118,7 +118,7 @@
 			}
 			$sql = 'SELECT
 			hst.id as id, hst.recipe_id as recipe_id,
-			hst.date as date, hst.rating_id as rating_id,
+			hst.date as date, hst.rating_id as rating_id, rat.stars as ratingStars,
 			hst.personalComment as personalComment, rcp.name as name, rat.description as ratingName
 				FROM rcp_recipeHistory AS hst LEFT JOIN rcp_recipe AS rcp ON hst.recipe_id = rcp.id
 				LEFT JOIN rcp_rating AS rat ON hst.rating_id = rat.id 
@@ -663,6 +663,8 @@
 					$rcp->recipeName = $row['name'];
 				if (isset($row['ratingName']))
 					$rcp->ratingName = $row['ratingName'];
+				if (isset($row['ratingStars']))
+					$rcp->ratingStars = $row['ratingStars'];
 
 				array_push($return, $rcp);
 			}
@@ -678,9 +680,9 @@
 			}
 			
 			$sql = 'SELECT
-			hst.id as id, hst.recipe_id as recipe_id,
-			hst.date as date, hst.rating_id as rating_id,
-			hst.personalComment as personalComment, rcp.name as name, rat.description as ratingName
+				hst.id as id, hst.recipe_id as recipe_id,
+				hst.date as date, hst.rating_id as rating_id, rat.stars as ratingStars,
+				hst.personalComment as personalComment, rcp.name as name, rat.description as ratingName
 				FROM rcp_recipeHistory AS hst LEFT JOIN rcp_recipe AS rcp ON hst.recipe_id = rcp.id
 				LEFT JOIN rcp_rating AS rat ON hst.rating_id = rat.id ';
 			
