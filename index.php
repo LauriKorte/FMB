@@ -14,6 +14,7 @@
 	require_once("class/content/recipeList.php");
 	require_once("class/content/reviewList.php");
 	require_once("class/content/navbar.php");
+	require_once("class/content/abootStyle.php");
 	require_once("class/content/recipeDisplay.php");
 	require_once("class/content/loginForm.php");
 	require_once("class/content/pageLinks.php");
@@ -309,10 +310,7 @@
 	
 	$sitem->addGetMatch("%^/about$%", function ($_)
 	{
-		return new ItemContent(new TextStyle(), array("text" => "
-		<h1>About our Team</h1>
-		We are a bunch of students trying to make their way on this Earth. We are studying at JAMK University of Applied Sciences.
-		We made this RecipeBook for we wanted some place to store our precious recipes of our fine cookies and other stuff. We also made it as e"));
+		return new ItemContent(new AbootStyle(),array());
 	});
 
 	//Match for everything else
