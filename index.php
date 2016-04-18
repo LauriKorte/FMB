@@ -309,13 +309,15 @@
 			"Frotn" => $DomainPrefix."/",
 			"Brouse" => $DomainPrefix."/browse/0",
 			"Rewievs" => $DomainPrefix."/browsereview/0",
-			"Logging" => $DomainPrefix."/loginForm",
 			"Aboot" => $DomainPrefix."/about");
 
 		if ($auth->isLoggedIn())
 		{
 			$links["Add new repice"] = $DomainPrefix."/addrecipe";
+			$links["Loggout"] = $DomainPrefix."/logout";
 		}
+		else
+			$links["Logging"] = $DomainPrefix."/loginForm";
 
 		return new ItemContent(new NavBarStyle(), array("links" => $links));
 	});
@@ -349,6 +351,14 @@
 		$lgn->style = new LoginFormStyle();
 		$lgn->arguments = array("address" => $DomainPrefix."/login");
 		return $lgn;
+	});
+	
+	//Match for url: /logout
+	$sitem->addGetMatch("%^/logout$%", function ($_)
+	{
+		global $DomainPrefix;
+		Authentication::logout();
+		return new ItemContent(new TextStyle(), array("text" => "You log out!!!"));
 	});
 
 	//Match for url: /
