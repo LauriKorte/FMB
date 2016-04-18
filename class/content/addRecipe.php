@@ -158,7 +158,7 @@ class RecipeAddStyle extends Style
 		</script>
 		<?php
 
-		echo ('<button type="button" class="btn btn-success">Add repice</button><input type="submit">');
+		echo ('<input type="submit" class="btn btn-success">Add repice</input>');
 		echo ("</form> </div>");
 	}
 	public function displayItemEnd()
