@@ -13,6 +13,7 @@
 
 	require_once("class/content/recipeList.php");
 	require_once("class/content/navbar.php");
+	require_once("class/content/abootStyle.php");
 	require_once("class/content/recipeDisplay.php");
 	require_once("class/content/loginForm.php");
 	require_once("class/content/pageLinks.php");
