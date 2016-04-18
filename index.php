@@ -99,7 +99,7 @@
 	});
 
 
-	//Match for url: /recipebrowse/(page)
+	//Match for url: /browse/(page)
 	//Displays a linked list of recipes page (page)
 	$sitem->addGetMatch("%^/browse/([0-9]+)$%", function ($rcp) use ($db, $sitem)
 	{
@@ -118,6 +118,33 @@
 		for ($i = 0; $i < $pages; $i++)
 		{
 			$links[((string)$i+1)] = $DomainPrefix."/browse/".((string)$i);
+		}
+
+		$plinks = new ItemContent(new PageLinksStyle(), array("links" => $links));
+		$cg = new ContentGroup(array($rcpList, $plinks));
+
+
+		return $cg;
+	});
+	//Match for url: /browsereview/(page)
+	//Displays a linked list of reviews page (page)
+	$sitem->addGetMatch("%^/browsereview/([0-9]+)$%", function ($rcp) use ($db, $sitem)
+	{
+		global $DomainPrefix;
+		$cnt = $db->getRecipeCount();
+		$pages = ceil($cnt/10);
+		$curPage = (int)$rcp[1];
+
+		$from = $curPage*10;
+		$to = $from+10;
+
+		$rcpList = $sitem->get("/getreviewlist/".((string)$from).":".((string)$to));
+
+
+		$links = array();
+		for ($i = 0; $i < $pages; $i++)
+		{
+			$links[((string)$i+1)] = $DomainPrefix."/browsereview/".((string)$i);
 		}
 
 		$plinks = new ItemContent(new PageLinksStyle(), array("links" => $links));
@@ -259,6 +286,7 @@
 		$links = array(
 			"Front" => $DomainPrefix."/",
 			"Brouse" => $DomainPrefix."/browse/0",
+			"Rewievs" => $DomainPrefix."/browsereview/0",
 			"Loggin'" => $DomainPrefix."/loginForm",
 			"Aboot" => $DomainPrefix."/about");
 

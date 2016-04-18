@@ -105,6 +105,7 @@
 		public $date;
 		public $rating;
 		public $personalComment;
+		public $recipeName;
 	}
 	
 	class ResultType
