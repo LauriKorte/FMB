@@ -226,6 +226,35 @@
 			
 			return "Recipe gone in!!!";
 		}
+		
+		public function addReview($rcp)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			
+			$sql = 'INSERT INTO rcp_recipeHistory
+					(recipe_id,date,
+					rating_id,personalComment)
+					values
+					(:rid, :dtt, :rating, :comment);';
+
+			$qr = $this->db->prepare($sql);
+			$qr->bindValue(':rid', $rcp->recipe, PDO::PARAM_INT);
+			$qr->bindValue(':dtt', $rcp->date, PDO::PARAM_STR);
+			$qr->bindValue(':rating', $rcp->rating, PDO::PARAM_INT);
+			$qr->bindValue(':comment', $rcp->personalComment, PDO::PARAM_STR);
+
+			$res = $qr->execute();
+			if (!$res)
+				return "No can do!";
+
+			
+			return "Review gone in!!!";
+		}
 
 		public function deleteRecipe($rid)
 		{

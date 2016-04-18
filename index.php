@@ -136,12 +136,11 @@
 			return new ContentGroup($arr);
 		}
 		$integer = (int)($rcp[1]);
-		$recipe = $db->getRecipes($integer,$integer+1);
-		if (count($recipe) == 0)
+		$recipe = $db->getRecipeWithIngredients($integer);
+		if (is_null($recipe))
 		{
 			return new ItemContent(new TextStyle(), array("text" => "Da recipe don't exist!"));
 		}
-		$recipe = $recipe[0];
 
 		return new ItemContent(new ReviewAddStyle(), array("recipe" => $recipe));
 	});
@@ -194,20 +193,15 @@
 			return new ContentGroup($arr);
 		}
 
-		$rcp = new Recipe();
+		$rev = new RecipeHistory();
 		
-		$rcp->name = $_POST["name"];
-		$rcp->description = $_POST["description"];
-		$rcp->dishType = $_POST["dishtype"];
-		$rcp->amountOfAttention = $_POST["attention"];
-		$rcp->difficulty = $_POST["difficulty"];
-		$rcp->resultType = $_POST["result"];
-		$rcp->manufacturingTime = $_POST["time"];
+		$rev->recipe = $_POST["recipeid"];
+		$rev->date = date('Y-m-d H:i:s');
+		$rev->rating = $_POST["rating"];
+		$rev->personalComment = $_POST["comment"];
 
-		$ingr = json_decode($_POST["ingredients"]);
-		$rcp->ingredients = $ingr;
 
-		$ret = $db->addRecipe($rcp);
+		$ret = $db->addReview($rev);
 		
 		return new ItemContent(new TextStyle(), array("text" => $ret));
 	});

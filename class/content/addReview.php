@@ -17,7 +17,7 @@ class ReviewAddStyle extends Style
 		echo ('<div class="col-md-4" >');
 		echo ('<form method="post" action="'.$DomainPrefix."/postreview".'" id="reviewAdd">');
 		echo ("<p>Review for recipe {$arguments['recipe']->name} </p>");
-		echo ('<textarea name="description" form="recipeAdd">Enter review here</textarea><br>');
+		echo ('<textarea name="comment" form="reviewAdd">Enter review here</textarea><br>');
 
 		echo ('Rating: <select name="rating">');
 		foreach ($ratings as $rt)
