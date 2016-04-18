@@ -539,5 +539,36 @@
 			
 			return $this->parseResultType($result);
 		}
+		
+		private function parseRecipeHistory($recipeResult)
+		{
+			$return = array();
+			foreach ($recipeResult as $rownum => $row)
+			{
+				$rcp = new Recipe();
+				$rcp->id = $row['id'];
+				$rcp->recipe = $this->convertCharSet($row['recipe']);
+				$rcp->date = $this->convertCharSet($row['date']);
+				$rcp->rating = $this->convertCharSet($row['rating']);
+				$rcp->personalComment = $this->convertCharSet($row['personalComment']);
+				array_push($return, $rcp);
+			}
+			return $return;
+		}
+		
+		public function getRecipeHistory($first = 0, $last = -1)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			$sql = 'SELECT * FROM rcp_recipeHistory ';
+			
+			$result = $this->doRangedQuery($first,$last,$sql);
+			
+			return $this->parseRecipeHistory($result);
+		}
 	}
 	
