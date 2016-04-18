@@ -116,9 +116,13 @@
 				echo("DB connection not established");
 				return null;
 			}
-			$sql = 'SELECT *
-					FROM rcp_recipeHistory AS rv
-					WHERE rv.id = :id';
+			$sql = 'SELECT
+			hst.id as id, hst.recipe_id as recipe_id,
+			hst.date as date, hst.rating_id as rating_id,
+			hst.personalComment as personalComment, rcp.name as name, rat.description as ratingName
+				FROM rcp_recipeHistory AS hst LEFT JOIN rcp_recipe AS rcp ON hst.recipe_id = rcp.id
+				LEFT JOIN rcp_rating AS rat ON hst.rating_id = rat.id 
+					WHERE hst.id = :id';
 			
 			$qr = $this->db->prepare($sql);
 			$qr->execute(array('id' => $id));
@@ -622,8 +626,11 @@
 				$rcp->date = $this->convertCharSet($row['date']);
 				$rcp->rating = $this->convertCharSet($row['rating_id']);
 				$rcp->personalComment = $this->convertCharSet($row['personalComment']);
+				$rcp->ratingName  ="";
 				if (isset($row['name']))
 					$rcp->recipeName = $row['name'];
+				if (isset($row['ratingName']))
+					$rcp->ratingName = $row['ratingName'];
 
 				array_push($return, $rcp);
 			}
@@ -638,7 +645,12 @@
 				return array();
 			}
 			
-			$sql = 'SELECT * FROM rcp_recipeHistory AS hst LEFT JOIN rcp_recipe AS rcp ON hst.recipe_id = rcp.id ';
+			$sql = 'SELECT
+			hst.id as id, hst.recipe_id as recipe_id,
+			hst.date as date, hst.rating_id as rating_id,
+			hst.personalComment as personalComment, rcp.name as name, rat.description as ratingName
+				FROM rcp_recipeHistory AS hst LEFT JOIN rcp_recipe AS rcp ON hst.recipe_id = rcp.id
+				LEFT JOIN rcp_rating AS rat ON hst.rating_id = rat.id ';
 			
 			$result = $this->doRangedQuery($first,$last,$sql);
 			

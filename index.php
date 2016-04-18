@@ -95,7 +95,8 @@
 	$sitem->addGetMatch("%^/getreview/([0-9]+)$%", function ($rcp) use ($db)
 	{
 		$rv = $db->getReviewWithRecipe((int)$rcp[1]);
-		return new ItemContent(new TextStyle(), array("text" => $rv->personalComment));
+		$text = "Review for '".$rv->recipeName."'<br> Rating: <strong>".$rv->ratingName."</strong><br>".$rv->personalComment;
+		return new ItemContent(new TextStyle(), array("text" => $text));
 	});
 
 
@@ -131,7 +132,7 @@
 	$sitem->addGetMatch("%^/browsereview/([0-9]+)$%", function ($rcp) use ($db, $sitem)
 	{
 		global $DomainPrefix;
-		$cnt = $db->getRecipeCount();
+		$cnt = $db->getReviewCount();
 		$pages = ceil($cnt/10);
 		$curPage = (int)$rcp[1];
 
@@ -284,15 +285,15 @@
 		global $DomainPrefix;
 
 		$links = array(
-			"Front" => $DomainPrefix."/",
+			"Frotn" => $DomainPrefix."/",
 			"Brouse" => $DomainPrefix."/browse/0",
 			"Rewievs" => $DomainPrefix."/browsereview/0",
-			"Loggin'" => $DomainPrefix."/loginForm",
+			"Logging" => $DomainPrefix."/loginForm",
 			"Aboot" => $DomainPrefix."/about");
 
 		if ($auth->isLoggedIn())
 		{
-			$links["Write recipe"] = $DomainPrefix."/addrecipe";
+			$links["Add new repice"] = $DomainPrefix."/addrecipe";
 		}
 
 		return new ItemContent(new NavBarStyle(), array("links" => $links));

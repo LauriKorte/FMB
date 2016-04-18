@@ -22,7 +22,7 @@ class RecipeAddStyle extends Style
 		echo ('<div class="col-md-4" >');
 		echo ('<form method="post" action="'.$DomainPrefix."/postrecipe".'" id="recipeAdd">');
 		echo ('Name: <input type="text" name="name"><br>');
-		echo ('Description: <textarea name="description" form="recipeAdd"></textarea><br>');
+		echo ('Description:<br> <textarea name="description" form="recipeAdd"></textarea><br>');
 
 		echo ('Dishtype: <select name="dishtype">');
 		foreach ($dishtype as $dt)
