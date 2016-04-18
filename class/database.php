@@ -197,6 +197,22 @@
 			return $arr["cnt"];
 		}
 
+		public function getReviewCount()
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			$sql = 'SELECT COUNT(*) as cnt FROM rcp_recipeHistory';
+			
+			$qr = $this->db->prepare($sql);
+			$qr->execute();
+			
+			$arr = $qr->fetch();
+			return $arr["cnt"];
+		}
 
 		public function addRecipe($rcp)
 		{
@@ -606,6 +622,9 @@
 				$rcp->date = $this->convertCharSet($row['date']);
 				$rcp->rating = $this->convertCharSet($row['rating_id']);
 				$rcp->personalComment = $this->convertCharSet($row['personalComment']);
+				if (isset($row['name']))
+					$rcp->recipeName = $row['name'];
+
 				array_push($return, $rcp);
 			}
 			return $return;
@@ -619,7 +638,7 @@
 				return array();
 			}
 			
-			$sql = 'SELECT * FROM rcp_recipeHistory ';
+			$sql = 'SELECT * FROM rcp_recipeHistory AS hst LEFT JOIN rcp_recipe AS rcp ON hst.recipe_id = rcp.id ';
 			
 			$result = $this->doRangedQuery($first,$last,$sql);
 			
