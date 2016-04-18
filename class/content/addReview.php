@@ -28,7 +28,7 @@ class ReviewAddStyle extends Style
 		
 		echo ("<input type='hidden' name='recipeid' value='{$arguments['recipe']->id}'>");
 
-		echo ('<input type="submit" value="go review go!!!">');
+		echo ('<button type="button" class="btn btn-success">Go recipe, GO!!!</button><input type="submit">');
 		echo ("</form> </div>");
 	}
 	public function displayItemEnd()
