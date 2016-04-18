@@ -21,6 +21,7 @@
 	require_once("class/content/pageLinks.php");
 	require_once("class/content/addRecipe.php");
 	require_once("class/content/addReview.php");
+	require_once("class/content/updateRecipe.php");
 
 	require_once("class/site/content.php");
 	require_once("class/authentication.php");
@@ -155,6 +156,7 @@
 
 		return $cg;
 	});
+
 	//Match for url: /addrecipe
 	$sitem->addGetMatch("%^/addrecipe$%", function ($_) use ($sitem)
 	{
@@ -171,6 +173,50 @@
 		}
 
 		return new ItemContent(new RecipeAddStyle(), array());
+	});
+
+	//Match for url: /updaterecipe
+	$sitem->addGetMatch("%^/updaterecipe$%", function ($_) use ($sitem, $db)
+	{
+
+		$auth = new Authentication();
+
+		if (!$auth->isLoggedIn())
+		{
+			$itc = new ItemContent(new TextStyle(), array("text" => "Please log in first"));
+
+			$ckr = $sitem->get("/loginForm");
+			$arr = array($itc, $ckr);
+			return new ContentGroup($arr);
+		}
+
+		$rcp = new Recipe();
+		
+		$rcp->id = $_POST["id"];
+		$rcp->name = $_POST["name"];
+		$rcp->description = $_POST["description"];
+		$rcp->dishType = $_POST["dishtype"];
+		$rcp->amountOfAttention = $_POST["attention"];
+		$rcp->difficulty = $_POST["difficulty"];
+		$rcp->resultType = $_POST["result"];
+		$rcp->manufacturingTime = $_POST["time"];
+
+		$ingr = json_decode($_POST["ingredients"]);
+		$rcp->ingredients = $ingr;
+
+		$ret = $db->updateRecipe($rcp);
+
+		return $sitem->get("/getrecipe/".$rcp->id);
+	});
+	
+	
+	//Match for url: /modifyrecipe/(id)
+	$sitem->addGetMatch("%^/modifyrecipe/([0-9]+)$%", function ($rcp) use ($db)
+	{
+		$rcpmod = new RecipeUpdateStyle();
+		$recipe = $db->getRecipeWithIngredients((int)$rcp[1]);
+
+		return new ItemContent($rcpmod, array("recipe" => $recipe));
 	});
 	
 	//Match for url: /addreview/(recipeid)

@@ -272,6 +272,76 @@
 			
 			return "Recipe gone in!!!";
 		}
+
+		public function updateRecipe($rcp)
+		{
+			if (is_null($this->db))
+			{
+				echo("DB connection not established");
+				return array();
+			}
+			
+			if (strlen($rcp->name) <= 2)
+				return "Please enter a name!";
+
+
+			$sql = 'UPDATE rcp_recipe 
+					SET name=:name,description=:desc,
+					manufacturingTime_id=:mid,resultType_id=:rid,
+					amountOfAttention_id=:aid,difficulty_id=:did,dishType_id=:dtid
+					WHERE id=:rrid;';
+
+			$qr = $this->db->prepare($sql);
+			$qr->bindValue(':name', $rcp->name, PDO::PARAM_STR);
+			$qr->bindValue(':desc', $rcp->description, PDO::PARAM_STR);
+			$qr->bindValue(':mid', $rcp->manufacturingTime, PDO::PARAM_INT);
+			$qr->bindValue(':rid', $rcp->resultType, PDO::PARAM_INT);
+			$qr->bindValue(':aid', $rcp->amountOfAttention, PDO::PARAM_INT);
+			$qr->bindValue(':did', $rcp->difficulty, PDO::PARAM_INT);
+			$qr->bindValue(':dtid', $rcp->dishType, PDO::PARAM_INT);
+			$qr->bindValue(':rrid', $rcp->id, PDO::PARAM_INT);
+			
+			$res = $qr->execute();
+			if (!$res)
+				return "No can do!";
+
+			$lid = $rcp->id;
+
+			try
+			{
+				$sql = 'DELETE FROM rcp_recipe_has_ingredient WHERE recipe_id=:iad ';
+				$qr = $this->db->prepare($sql);
+				$qr->bindValue(':iad', $rcp->id, PDO::PARAM_INT);
+				if (!$qr->execute())
+					return false;
+			}
+			catch (Exception $e)
+			{
+				return false;
+
+			}
+
+			if (count($rcp->ingredients) == 0)
+				return "Recipe ooptaded in!!!";
+			$params = array();
+			$sql = 'INSERT INTO rcp_recipe_has_ingredient (recipe_id, ingredient_id, amount) values ';
+			$isFirst = true;
+			foreach ($rcp->ingredients as $ing)
+			{
+				if (!$isFirst)
+					$sql .= ',';
+				$isFirst = false;
+				$sql .= '( ? , ?, ? )';
+				array_push($params, (int)$lid);
+				array_push($params, (int)$ing->id);
+				array_push($params, (int)$ing->amount);
+
+			}
+			$qr = $this->db->prepare($sql);
+			$res = $qr->execute($params);
+			
+			return "Recipe ooptaded in!!!";
+		}
 		
 		public function addReview($rcp)
 		{
