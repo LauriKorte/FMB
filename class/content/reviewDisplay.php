@@ -29,7 +29,7 @@ class ReviewDisplayStyle extends Style
 			$auth = new Authentication();
 			if ($auth->isLoggedIn())
 			{
-				echo ("<a href='{$DomainPrefix}/deletereview/{$rv->id}'><button type='button' class='btn btn-danger'>Delete review</button></a>");
+				echo ("<p><a href='{$DomainPrefix}/deletereview/{$rv->id}'><button type='button' class='btn btn-danger'>Delete review</button></a>");
 			}
 
 		}
