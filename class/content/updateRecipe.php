@@ -191,7 +191,7 @@ class RecipeUpdateStyle extends Style
 			</script>
 			<?php
 
-			echo ('<p><input type="submit" class="btn btn-success" value="Update Repice, update!!!"></input>');
+			echo ('<p><p><input type="submit" class="btn btn-success" value="Update Repice, update!!!"></input>');
 			echo ("</form> </div>");
 		}
 		else
