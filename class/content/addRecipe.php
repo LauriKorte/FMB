@@ -19,7 +19,7 @@ class RecipeAddStyle extends Style
 		$diff = $db->getDifficulty();
 		$rtype = $db->getResultType();
 
-		echo ('<div class="container" >');
+		echo ('<div class="container">');
 		echo ('<form method="post" action="'.$DomainPrefix."/postrecipe".'" id="recipeAdd">');
 		echo ('Name: <input type="text" name="name"><br>');
 		echo ('Description:<br> <textarea name="description" form="recipeAdd"></textarea><br>');
@@ -72,7 +72,7 @@ class RecipeAddStyle extends Style
 
 		//make ingredients selectable and fill a hidden form value with all the selected ingredients in JSON format
 		?>
-		<input id="ingListJSON" type="hidden" name="ingredients" value="[]"/>
+		<br><input id="ingListJSON" type="hidden" name="ingredients" value="[]"/>
 
 		<div id="ingList">
 		</div>
