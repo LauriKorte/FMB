@@ -412,7 +412,7 @@
 	//Displays the front page
 	$sitem->addGetMatch("%^/$%", function ($_)
 	{
-		return new ItemContent(new TextStyle(), array("text" => "guess this a front page"));
+		return new ItemContent(new FrontStyle(), array());
 	});
 	
 	$sitem->addGetMatch("%^/about$%", function ($_)
