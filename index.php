@@ -354,18 +354,18 @@
 		global $DomainPrefix;
 
 		$links = array(
-			"Frotn" => $DomainPrefix."/",
-			"Brouse" => $DomainPrefix."/browse/0",
-			"Rewievs" => $DomainPrefix."/browsereview/0",
-			"Aboot" => $DomainPrefix."/about");
+			"Front" => $DomainPrefix."/",
+			"Browse" => $DomainPrefix."/browse/0",
+			"Reviews" => $DomainPrefix."/browsereview/0",
+			"About" => $DomainPrefix."/about");
 
 		if ($auth->isLoggedIn())
 		{
 			$links["Add new repice"] = $DomainPrefix."/addrecipe";
-			$links["Loggout"] = $DomainPrefix."/logout";
+			$links["Logout"] = $DomainPrefix."/logout";
 		}
 		else
-			$links["Logging"] = $DomainPrefix."/loginForm";
+			$links["Login"] = $DomainPrefix."/loginForm";
 
 		return new ItemContent(new NavBarStyle(), array("links" => $links));
 	});
