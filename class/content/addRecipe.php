@@ -19,7 +19,7 @@ class RecipeAddStyle extends Style
 		$diff = $db->getDifficulty();
 		$rtype = $db->getResultType();
 
-		echo ('<div class="col-md-4" >');
+		echo ('<div class="container" >');
 		echo ('<form method="post" action="'.$DomainPrefix."/postrecipe".'" id="recipeAdd">');
 		echo ('Name: <input type="text" name="name"><br>');
 		echo ('Description:<br> <textarea name="description" form="recipeAdd"></textarea><br>');
