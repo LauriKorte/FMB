@@ -16,7 +16,7 @@ class NavBarStyle extends Style
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>');
 						 
-		echo("</button><a class='navbar-brand' href='{$DomainPrefix}/'>FoodManufacturingFood</a>");
+		echo("</button><a class='navbar-brand' href='{$DomainPrefix}/'>FMB</a>");
 		echo ('</div>
 				
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
