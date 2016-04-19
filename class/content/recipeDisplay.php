@@ -14,7 +14,7 @@ class RecipeDisplayStyle extends Style
 	{
 
 		global $DomainPrefix;
-		echo ('<div class="col-md-4">');
+		echo ('<div class="container">');
 
 		if (!is_null($arguments['recipe']))
 		{
