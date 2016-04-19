@@ -15,6 +15,7 @@
 	require_once("class/content/reviewList.php");
 	require_once("class/content/navbar.php");
 	require_once("class/content/abootStyle.php");
+	require_once("class/content/frontStyle.php");
 	require_once("class/content/recipeDisplay.php");
 	require_once("class/content/reviewDisplay.php");
 	require_once("class/content/loginForm.php");
