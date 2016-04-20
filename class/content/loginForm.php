@@ -22,7 +22,7 @@ class LoginFormStyle extends Style
 					<td><input type="password" name="loginPass"/></td>	
 				</tr>
 			</table>
-			<input type="submit" name="button" class="btn btn-primary" value="Login" />
+			<input type="submit" name="button" class="btn btn-primary btn-lg" value="Login" />
 		</form>
 		<?php
 	}
