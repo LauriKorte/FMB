@@ -9,7 +9,7 @@ class PageLinksStyle extends Style
 	}
 	public function displayItem($arguments)
 	{
-		echo ('<ul class="pagination">');
+		echo ('<div class="container"><ul class="pagination">');
 
 		if (!is_null($arguments['links']))
 		{			
@@ -21,7 +21,7 @@ class PageLinksStyle extends Style
 	}
 	public function displayItemEnd()
 	{
-		echo ('</ul>');
+		echo ('</ul></div>');
 	}
 	public function displayFooter()
 	{
