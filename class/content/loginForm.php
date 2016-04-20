@@ -15,11 +15,11 @@ class LoginFormStyle extends Style
 			<table>
 				<tr>
 					<td>Username:</td>
-					<td><input type="text" name="loginUser"/></td>	
+					<td><input type="text" name="loginUser"/><p></td>	
 				</tr>
 				<tr>
 					<td>Password:</td>
-					<td><input type="password" name="loginPass"/></td>	
+					<td><input type="password" name="loginPass"/><p></td>	
 				</tr>
 			</table>
 			<input type="submit" name="button" class="btn btn-primary btn-lg" value="Login" />
