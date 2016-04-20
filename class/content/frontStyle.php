@@ -6,7 +6,9 @@ class FrontStyle extends Style
 	{
 		?>
 		<div class="container">
-			<h1>Welcome to the Food Manufacturing Book</h1>
+			<h1 onmouseover="this.innerHTML='Welcome to the OG Recipes';" onmouseout="this.innerHTML='Welcome to the Food Manufacturing Book';">
+				Welcome to the Food Manufacturing Book
+			</h1>
 			This is a cookbook for MEN, who want to find their own way to do stuff.
 			<p>
 			If you think you are worthy to cook like MEN you can try to guess the 'secret' password for this page.

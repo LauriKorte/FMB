@@ -18,7 +18,7 @@ class RecipeUpdateStyle extends Style
 			$diff = $db->getDifficulty();
 			$rtype = $db->getResultType();
 
-			echo ('<div class="col-md-4" >');
+			echo ('<div class="container" >');
 			echo ('<form method="post" action="'.$DomainPrefix."/updaterecipe".'" id="recipeAdd">');
 			echo ('Name: <input type="text" name="name" value="'.$current->name.'"><br>');
 			echo ('Description:<br> <textarea name="description" form="recipeAdd">'.$current->description.'</textarea><br>');

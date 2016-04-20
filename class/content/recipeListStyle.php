@@ -12,7 +12,7 @@ class RecipeListStyle extends Style
 	}
 	public function displayItem($arguments)
 	{
-		echo ("<tr><td><a href='{$arguments['link']}'>Recipe: {$arguments['name']}</a></td>");
+		echo ("<tr><td><a href='{$arguments['link']}'>{$arguments['name']}</a></td>");
 		echo ("</tr>");
 	}
 	public function displayItemEnd()

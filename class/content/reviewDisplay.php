@@ -31,7 +31,7 @@ class ReviewDisplayStyle extends Style
 				if ($i < $rv->ratingStars)
 					echo("<img src='{$DomainPrefix}/assets/bread.png' width='48' height='auto'>");
 				else
-					echo("<img src='{$DomainPrefix}/assets/bread.png' width='12' height='auto'>");
+					echo("<img src='{$DomainPrefix}/assets/burntbread.png' width='48' height='auto'>");
 					
 			}
 
