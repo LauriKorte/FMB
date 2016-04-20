@@ -4,8 +4,10 @@ require_once(__DIR__ . "/../site/style.php");
 
 class RecipeListStyle extends Style
 {
+	
 	public function displayHeader()
 	{
+		echo('<div class="container">');
 		echo('<table class="table table-striped">');
 	}
 	public function displayItem($arguments)
@@ -19,5 +21,6 @@ class RecipeListStyle extends Style
 	public function displayFooter()
 	{
 		echo('</table>');
+		echo('</div>');
 	}
 }
