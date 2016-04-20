@@ -15,7 +15,7 @@ class PageLinksStyle extends Style
 		{			
 			foreach ($arguments['links'] as $text => $target)
 			{
-				echo ("<li><a href='{$target}'/>{$text}</a></li>");
+				echo ("<li><a href='{$target}'>{$text}</a></li>");
 			}
 		}
 	}
