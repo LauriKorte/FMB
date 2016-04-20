@@ -14,13 +14,15 @@ class LoginFormStyle extends Style
 		<form method="post" action="<?php echo($arguments['address']);?>">
 			<table>
 				<tr>
-					<td>Username:<input type="text" name="loginUser"/></td>	
+					<td>Username:</td>
+					<td><input type="text" name="loginUser"/></td>	
 				</tr>
 				<tr>
-					<td>Password:<input type="password" name="loginPass"/></td>	
+					<td>Password:</td>
+					<td><input type="password" name="loginPass"/></td>	
 				</tr>
-				<input type="submit" name="button" class="btn btn-primary" value="Login" />
 			</table>
+			<input type="submit" name="button" class="btn btn-primary" value="Login" />
 		</form>
 		<?php
 	}
