@@ -9,7 +9,7 @@ class LoginFormStyle extends Style
 	}
 	public function displayItem($arguments)
 	{
-		echo ("<div>");
+		echo ('<div class="container">');
 		?>
 		<form method="post" action="<?php echo($arguments['address']);?>">
 		Username:<input type="text" name="loginUser"><br />
