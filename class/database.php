@@ -228,6 +228,7 @@
 			
 			if (strlen($rcp->name) <= 2)
 				return "Please enter a name!";
+	
 			
 			$sql = 'INSERT INTO rcp_recipe 
 					(name,description,
@@ -258,6 +259,9 @@
 			$isFirst = true;
 			foreach ($rcp->ingredients as $ing)
 			{
+				if ($ing->amount <= 0)
+					continue;
+				
 				if (!$isFirst)
 					$sql .= ',';
 				$isFirst = false;
@@ -440,7 +444,7 @@
 				return array();
 			}
 			
-			$sql = 'SELECT * FROM rcp_recipe ';
+			$sql = 'SELECT * FROM rcp_recipe ORDER BY name ASC ';
 			
 			$result = $this->doRangedQuery($first,$last,$sql);
 			
@@ -761,7 +765,7 @@
 				hst.date as date, hst.rating_id as rating_id, rat.stars as ratingStars,
 				hst.personalComment as personalComment, rcp.name as name, rat.description as ratingName
 				FROM rcp_recipeHistory AS hst LEFT JOIN rcp_recipe AS rcp ON hst.recipe_id = rcp.id
-				LEFT JOIN rcp_rating AS rat ON hst.rating_id = rat.id ';
+				LEFT JOIN rcp_rating AS rat ON hst.rating_id = rat.id ORDER BY hst.date DESC ';
 			
 			$result = $this->doRangedQuery($first,$last,$sql);
 			

@@ -7,11 +7,12 @@ class ReviewListStyle extends Style
 {
 	public function displayHeader()
 	{
+		echo('<div class="container">');
 		echo('<table class="table table-striped">');
 	}
 	public function displayItem($arguments)
 	{
-		echo ("<tr><td><a href='{$arguments['link']}'>Review: {$arguments['name']}</a></td>");
+		echo ("<tr><td><a href='{$arguments['link']}'>{$arguments['name']}</a></td><td>{$arguments['rating']}</td><td>{$arguments['date']}</td>");
 		echo ("</tr>");
 	}
 	public function displayItemEnd()
@@ -20,6 +21,7 @@ class ReviewListStyle extends Style
 	public function displayFooter()
 	{
 		echo('</table>');
+		echo('</div>');
 	}
 }
 
@@ -42,7 +44,7 @@ class ReviewList extends Content
 		foreach ($this->reviews as $review)
 		{
 			$this->style->displayItem(
-				array('name' => $review->recipeName." ".(string)$review->date, 'link' => $this->linkPrefix.((string)$review->id)));
+				array('name' => $review->recipeName, 'rating' => $review->ratingName.' '.$review->ratingStars.'/5', 'date' => (string)$review->date, 'link' => $this->linkPrefix.((string)$review->id)));
 			$this->style->displayItemEnd();
 		}
 	}

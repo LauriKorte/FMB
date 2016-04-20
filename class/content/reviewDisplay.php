@@ -25,6 +25,12 @@ class ReviewDisplayStyle extends Style
 			
 		
 			echo ("<strong>{$rv->ratingName} {$rv->ratingStars}/5 </strong><br>");
+			
+			for ($i = 1; $i < 5; $i++)
+			{
+				if ($i <= $rv->ratingStars)
+					echo("<img src='{$DomainPrefix}/assets/bread.png' width='48' height='auto'>");
+			}
 
 			$auth = new Authentication();
 			if ($auth->isLoggedIn())
