@@ -12,9 +12,15 @@ class LoginFormStyle extends Style
 		echo ('<div class="container">');
 		?>
 		<form method="post" action="<?php echo($arguments['address']);?>">
-		Username:<input type="text" name="loginUser"><p />
-		Password:<input type="password" name="loginPass"><p /><p>
-		<input type="submit" name="button" class="btn btn-primary" value="Login" />
+			<table>
+				<tr>
+					<td>Username:<input type="text" name="loginUser"/></td>	
+				</tr>
+				<tr>
+					<td>Password:<input type="password" name="loginPass"/></td>	
+				</tr>
+				<input type="submit" name="button" class="btn btn-primary" value="Login" />
+			</table>
 		</form>
 		<?php
 	}
